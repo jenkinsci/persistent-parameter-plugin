@@ -1,0 +1,6 @@
+<!--
+  This view is used to render the installed plugins page.
+-->
+<div>
+  String, text, boolean and choice parameters with default values set from the previous build (if any).
+</div>
