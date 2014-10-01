@@ -77,9 +77,12 @@ public class PersistentChoiceParameterDefinition extends SimpleParameterDefiniti
     String def = defaultValue;
     try
     {
-      AbstractProject project = Stapler.getCurrentRequest().findAncestorObject(AbstractProject.class);
-      AbstractBuild build = (successfulOnly ? (AbstractBuild)project.getLastSuccessfulBuild() : project.getLastBuild());
-      def = build.getBuildVariables().get(getName()).toString();
+      if(Stapler.getCurrentRequest().getRequestURI().endsWith("/build"))
+      {
+        AbstractProject project = Stapler.getCurrentRequest().findAncestorObject(AbstractProject.class);
+        AbstractBuild build = (successfulOnly ? (AbstractBuild)project.getLastSuccessfulBuild() : project.getLastBuild());
+        def = build.getBuildVariables().get(getName()).toString();
+      }
     }
     catch(Exception ex)
     {
@@ -87,8 +90,10 @@ public class PersistentChoiceParameterDefinition extends SimpleParameterDefiniti
     
     if(def != null && choices.indexOf(def) != 0)
     {
-      choices.remove(def);
-      choices.add(0, def);
+      List<String> c = new ArrayList<String>(choices);
+      c.remove(def);
+      c.add(0, def);
+      return c;
     }
     
     return choices;

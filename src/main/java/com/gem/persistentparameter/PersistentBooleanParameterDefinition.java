@@ -73,14 +73,17 @@ public class PersistentBooleanParameterDefinition extends SimpleParameterDefinit
   {
     try
     {
-      AbstractProject project = Stapler.getCurrentRequest().findAncestorObject(AbstractProject.class);
-      AbstractBuild build = (successfulOnly ? (AbstractBuild)project.getLastSuccessfulBuild() : project.getLastBuild());
-      return Boolean.parseBoolean(build.getBuildVariables().get(getName()).toString());
+      if(Stapler.getCurrentRequest().getRequestURI().endsWith("/build"))
+      {
+        AbstractProject project = Stapler.getCurrentRequest().findAncestorObject(AbstractProject.class);
+        AbstractBuild build = (successfulOnly ? (AbstractBuild)project.getLastSuccessfulBuild() : project.getLastBuild());
+        return Boolean.parseBoolean(build.getBuildVariables().get(getName()).toString());
+      }
     }
     catch(Exception ex)
     {
-      return defaultValue;
     }
+    return defaultValue;
   }
   
   public boolean isSuccessfulOnly()

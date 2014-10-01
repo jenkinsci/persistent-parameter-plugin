@@ -71,14 +71,17 @@ public class PersistentStringParameterDefinition extends SimpleParameterDefiniti
   {
     try
     {
-      AbstractProject project = Stapler.getCurrentRequest().findAncestorObject(AbstractProject.class);
-      AbstractBuild build = (successfulOnly ? (AbstractBuild)project.getLastSuccessfulBuild() : project.getLastBuild());
-      return build.getBuildVariables().get(getName()).toString();
+      if(Stapler.getCurrentRequest().getRequestURI().endsWith("/build"))
+      {
+        AbstractProject project = Stapler.getCurrentRequest().findAncestorObject(AbstractProject.class);
+        AbstractBuild build = (successfulOnly ? (AbstractBuild)project.getLastSuccessfulBuild() : project.getLastBuild());
+        return build.getBuildVariables().get(getName()).toString();
+      }
     }
     catch(Exception ex)
     {
-      return defaultValue;
     }
+    return defaultValue;
   }
 
   public void setDefaultValue(String defaultValue)
