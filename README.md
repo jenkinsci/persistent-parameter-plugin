@@ -1,4 +1,4 @@
-persistentparameter
+Jenkins Persistent Parameter Plugin
 ===================
 
-Jenkins Persistent Parameter plugin
+https://wiki.jenkins-ci.org/display/JENKINS/Plugins#Plugins-Parameters
