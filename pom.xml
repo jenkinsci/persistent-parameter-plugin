@@ -51,9 +51,9 @@
   </distributionManagement>
 
   <scm>
-    <connection>scm:git:ssh://github.com/jenkinsci/persistent-parameter.git</connection>
-    <developerConnection>scm:git:ssh://git@github.com/jenkinsci/persistent-parameter.git</developerConnection>
-    <url>https://github.com/jenkinsci/persistent-parameter</url>
+    <connection>scm:git:ssh://github.com/jenkinsci/persistent-parameter-plugin.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/jenkinsci/persistent-parameter-plugin.git</developerConnection>
+    <url>https://github.com/jenkinsci/persistent-parameter-plugin</url>
     <tag>HEAD</tag>
   </scm>
 
