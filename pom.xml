@@ -6,16 +6,12 @@
     <version>1.532.3</version><!-- which version of Jenkins is this plugin built against? Users must have at least this Jenkins version to use this plugin. -->
   </parent>
 
-  <groupId>com.gem</groupId>
   <artifactId>persistent-parameter</artifactId>
-  <version>1.1-SNAPSHOT</version>
-  <packaging>hpi</packaging>
   <name>Persistent Parameter Plugin</name>
+  <description>String, text, boolean and choice parameters with default values set from the previous build (if any).</description>
   <url>http://wiki.jenkins-ci.org/display/JENKINS/Persistent+Parameter+Plugin</url>
-
-  <description>
-    String, text, boolean and choice parameters with default values set from the previous build (if any).
-  </description>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>hpi</packaging>
   
   <licenses>
     <license>
