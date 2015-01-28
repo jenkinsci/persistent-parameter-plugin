@@ -33,7 +33,6 @@ import hudson.model.StringParameterValue;
 import net.sf.json.JSONObject;
 
 import org.kohsuke.stapler.DataBoundConstructor;
-import org.kohsuke.stapler.Stapler;
 import org.kohsuke.stapler.StaplerRequest;
 
 /**
@@ -71,12 +70,9 @@ public class PersistentStringParameterDefinition extends SimpleParameterDefiniti
   {
     try
     {
-      if(Stapler.getCurrentRequest().getRequestURI().endsWith("/build"))
-      {
-        AbstractProject project = Stapler.getCurrentRequest().findAncestorObject(AbstractProject.class);
-        AbstractBuild build = (successfulOnly ? (AbstractBuild)project.getLastSuccessfulBuild() : project.getLastBuild());
-        return build.getBuildVariables().get(getName()).toString();
-      }
+      AbstractProject project = CurrentProject.getCurrentProject(this);
+      AbstractBuild build = (successfulOnly ? (AbstractBuild)project.getLastSuccessfulBuild() : project.getLastBuild());
+      return build.getBuildVariables().get(getName()).toString();
     }
     catch(Exception ex)
     {

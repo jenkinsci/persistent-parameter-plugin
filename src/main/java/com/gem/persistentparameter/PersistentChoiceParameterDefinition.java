@@ -18,7 +18,6 @@ import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.QueryParameter;
-import org.kohsuke.stapler.Stapler;
 import org.kohsuke.stapler.StaplerRequest;
 import org.kohsuke.stapler.export.Exported;
 
@@ -77,12 +76,9 @@ public class PersistentChoiceParameterDefinition extends SimpleParameterDefiniti
     String def = defaultValue;
     try
     {
-      if(Stapler.getCurrentRequest().getRequestURI().endsWith("/build"))
-      {
-        AbstractProject project = Stapler.getCurrentRequest().findAncestorObject(AbstractProject.class);
-        AbstractBuild build = (successfulOnly ? (AbstractBuild)project.getLastSuccessfulBuild() : project.getLastBuild());
-        def = build.getBuildVariables().get(getName()).toString();
-      }
+      AbstractProject project = CurrentProject.getCurrentProject(this);
+      AbstractBuild build = (successfulOnly ? (AbstractBuild)project.getLastSuccessfulBuild() : project.getLastBuild());
+      def = build.getBuildVariables().get(getName()).toString();
     }
     catch(Exception ex)
     {
