@@ -1,11 +1,12 @@
 package com.gem.persistentparameter;
 
-import hudson.model.AbstractProject;
-import hudson.model.Hudson;
-import hudson.model.ParameterDefinition;
-import hudson.model.ParametersDefinitionProperty;
 
-import org.kohsuke.stapler.Stapler;
+import hudson.model.*;
+
+import org.jenkinsci.plugins.workflow.job.*;
+import org.kohsuke.stapler.*;
+
+
 
 public class CurrentProject
 {
@@ -14,11 +15,23 @@ public class CurrentProject
     try
     {
       AbstractProject<?, ?> project = Stapler.getCurrentRequest().findAncestorObject(AbstractProject.class);
-      if(project != null)
+      
+      if(project != null) {
+    	System.out.println("Found some project");
         return Stapler.getCurrentRequest().getRequestURI().endsWith("/build") ? project : null;
+      }
+      else {
+    	  System.out.println("Project is null. This seems to be a pipeline job");
+    	  
+    	 // WorkflowJob wj = Stapler.getCurrentRequest().findAncestorObject(WorkflowJob.class);
+    	 
+    	 // System.out.println("Env Vars " +  wj.getLastBuild().getEnvVars());
+    	 
+      }
     }
     catch(Exception ex)
     {
+    	//ex.printStackTrace();
     }
     
     try
@@ -34,6 +47,7 @@ public class CurrentProject
     }
     catch(Exception ex)
     {
+    	//ex.printStackTrace();
     }
     
     return null;
