@@ -3,7 +3,7 @@ package com.gem.persistentparameter;
 
 import hudson.model.*;
 
-import org.jenkinsci.plugins.workflow.job.*;
+
 import org.kohsuke.stapler.*;
 
 

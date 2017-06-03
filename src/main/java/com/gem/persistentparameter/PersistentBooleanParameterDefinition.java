@@ -29,10 +29,14 @@ import hudson.model.SimpleParameterDefinition;
 import hudson.model.AbstractBuild;
 import hudson.model.AbstractProject;
 import hudson.model.BooleanParameterValue;
+import hudson.model.Hudson;
 import hudson.model.ParameterDefinition;
+import hudson.model.ParametersDefinitionProperty;
 import net.sf.json.JSONObject;
+import org.jenkinsci.plugins.workflow.job.WorkflowJob;
 
 import org.kohsuke.stapler.DataBoundConstructor;
+import org.kohsuke.stapler.Stapler;
 import org.kohsuke.stapler.StaplerRequest;
 
 /**
@@ -71,13 +75,47 @@ public class PersistentBooleanParameterDefinition extends SimpleParameterDefinit
   public boolean isDefaultValue()
   {
     try
-    {
+    { 
+				System.out.println("Got Abstract Project");
       AbstractProject project = CurrentProject.getCurrentProject(this);
+      if (project != null) {
       AbstractBuild build = (successfulOnly ? (AbstractBuild)project.getLastSuccessfulBuild() : project.getLastBuild());
       return Boolean.parseBoolean(build.getBuildVariables().get(getName()).toString());
+    }else {
+				StaplerRequest sr = Stapler.getCurrentRequest();
+				//System.out.println("Ancestors of current request "  +sr.getAncestors());
+				System.out.println("CURRENT REQUEST URI.........." + sr.getRequestURI());
+				if (Stapler.getCurrentRequest().getRequestURI().endsWith("/build")
+						|| Stapler.getCurrentRequest().getRequestURI().endsWith("/buildWithParameters")) {
+					System.out.println("Trying to fetch lastbuild's Pipeline parameter values only when build is triggered");
+					WorkflowJob wj = Stapler.getCurrentRequest().findAncestorObject(WorkflowJob.class);
+					//FlowExecution fe;
+					
+					System.out.println("Env Vars " + wj.getLastBuild().getEnvVars());
+					System.out.println(
+							"PArameter value retrieved is " + wj.getLastBuild().getEnvVars().get(getName()).toString());
+					
+					return Boolean.parseBoolean(wj.getLastBuild().getEnvVars().get(getName()).toString());
+				}
+      }
     }
     catch(Exception ex)
     {
+        for(WorkflowJob wj: Hudson.getInstance().getAllItems(WorkflowJob.class))
+		      {
+		        ParametersDefinitionProperty property = wj.getProperty(ParametersDefinitionProperty.class);
+		        if(property != null)
+		          for(ParameterDefinition parameter: property.getParameterDefinitions())
+		            if(parameter == this) {
+
+						System.out.println("INTERVAL : Env Vars " + wj.getLastBuild().getEnvVars());
+						System.out.println(
+								"INTERVAL :PArameter value retrieved is " + wj.getLastBuild().getEnvVars().get(getName()).toString());
+						
+						return Boolean.parseBoolean(wj.getLastBuild().getEnvVars().get(getName()).toString());
+		            }
+		             
+		      }
     }
     return defaultValue;
   }
