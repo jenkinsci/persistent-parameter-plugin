@@ -1,18 +1,18 @@
 /*
  * The MIT License
- * 
+ *
  * Copyright (c) 2004-2009, Sun Microsystems, Inc., Kohsuke Kawaguchi, Luca Domenico Milanesio, Seiji Sogabe, Tom Huybrechts
- * 
+ *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
  * in the Software without restriction, including without limitation the rights
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * 
+ *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -35,6 +35,7 @@ import hudson.model.StringParameterValue;
 import net.sf.json.JSONObject;
 //import org.jenkinsci.plugins.workflow.flow.FlowExecution;
 import org.jenkinsci.plugins.workflow.job.WorkflowJob;
+import org.jenkinsci.Symbol;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.Stapler;
 import org.kohsuke.stapler.StaplerRequest;
@@ -84,17 +85,17 @@ public class PersistentStringParameterDefinition extends SimpleParameterDefiniti
 					System.out.println("Trying to fetch lastbuild's Pipeline parameter values only when build is triggered");
 					WorkflowJob wj = Stapler.getCurrentRequest().findAncestorObject(WorkflowJob.class);
 					//FlowExecution fe;
-					
+
 					System.out.println("Env Vars " + wj.getLastBuild().getEnvVars());
 					System.out.println(
 							"PArameter value retrieved is " + wj.getLastBuild().getEnvVars().get(getName()).toString());
-					
+
 					return wj.getLastBuild().getEnvVars().get(getName()).toString();
 				}
 			}
 
 		} catch (Exception ex) {
-				
+
 			 for(WorkflowJob wj: Hudson.getInstance().getAllItems(WorkflowJob.class))
 		      {
 		        ParametersDefinitionProperty property = wj.getProperty(ParametersDefinitionProperty.class);
@@ -105,10 +106,10 @@ public class PersistentStringParameterDefinition extends SimpleParameterDefiniti
 						System.out.println("INTERVAL : Env Vars " + wj.getLastBuild().getEnvVars());
 						System.out.println(
 								"INTERVAL :PArameter value retrieved is " + wj.getLastBuild().getEnvVars().get(getName()).toString());
-						
+
 						return wj.getLastBuild().getEnvVars().get(getName()).toString();
 		            }
-		             
+
 		      }
 			//ex.printStackTrace();
 		}
@@ -141,6 +142,7 @@ public class PersistentStringParameterDefinition extends SimpleParameterDefiniti
 		return new StringParameterValue(getName(), value, getDescription());
 	}
 
+	@Symbol("persistentString")
 	@Extension
 	public static class DescriptorImpl extends ParameterDescriptor {
 		@Override

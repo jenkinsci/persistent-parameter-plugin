@@ -9,6 +9,8 @@ import hudson.model.ParameterDefinition;
 import hudson.model.StringParameterValue;
 import hudson.util.FormValidation;
 
+import org.jenkinsci.Symbol;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -83,7 +85,7 @@ public class PersistentChoiceParameterDefinition extends SimpleParameterDefiniti
     catch(Exception ex)
     {
     }
-    
+
     if(def != null && choices.indexOf(def) != 0)
     {
       List<String> c = new ArrayList<String>(choices);
@@ -91,7 +93,7 @@ public class PersistentChoiceParameterDefinition extends SimpleParameterDefiniti
       c.add(0, def);
       return c;
     }
-    
+
     return choices;
   }
 
@@ -131,6 +133,7 @@ public class PersistentChoiceParameterDefinition extends SimpleParameterDefiniti
     return checkValue(new StringParameterValue(getName(), value, getDescription()));
   }
 
+  @Symbol("persistentChoice")
   @Extension
   public static class DescriptorImpl extends ParameterDescriptor
   {
