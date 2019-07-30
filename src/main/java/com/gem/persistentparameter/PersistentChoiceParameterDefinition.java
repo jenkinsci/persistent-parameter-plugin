@@ -63,8 +63,13 @@ public class PersistentChoiceParameterDefinition extends SimpleParameterDefiniti
   {
     if(defaultValue instanceof StringParameterValue)
     {
-      StringParameterValue value = (StringParameterValue)defaultValue;
-      return new PersistentChoiceParameterDefinition(getName(), getChoices(), value.value, successfulOnly, getDescription());
+      Object value = ((StringParameterValue) defaultValue).getValue();
+      return new PersistentChoiceParameterDefinition(
+        getName(),
+        getChoices(),
+        (value != null) ? value.toString() : "",
+        successfulOnly,
+        getDescription());
     }
     else
     {
@@ -80,7 +85,10 @@ public class PersistentChoiceParameterDefinition extends SimpleParameterDefiniti
     {
       AbstractProject project = CurrentProject.getCurrentProject(this);
       AbstractBuild build = (successfulOnly ? (AbstractBuild)project.getLastSuccessfulBuild() : project.getLastBuild());
-      def = build.getBuildVariables().get(getName()).toString();
+      if(build != null)
+      {
+        def = build.getBuildVariables().get(getName()).toString();
+      }
     }
     catch(Exception ex)
     {
@@ -115,8 +123,8 @@ public class PersistentChoiceParameterDefinition extends SimpleParameterDefiniti
 
   private StringParameterValue checkValue(StringParameterValue value)
   {
-    if(!choices.contains(value.value))
-      throw new IllegalArgumentException("Illegal choice: " + value.value);
+    if(!choices.contains(value.getValue()))
+      throw new IllegalArgumentException("Illegal choice: " + value.getValue());
     return value;
   }
 

@@ -59,8 +59,11 @@ public class PersistentStringParameterDefinition extends SimpleParameterDefiniti
 	@Override
 	public ParameterDefinition copyWithDefaultValue(ParameterValue defaultValue) {
 		if (defaultValue instanceof StringParameterValue) {
-			StringParameterValue value = (StringParameterValue) defaultValue;
-			return new PersistentStringParameterDefinition(getName(), value.value, isSuccessfulOnly(),
+			Object value = ((StringParameterValue) defaultValue).getValue();
+			return new PersistentStringParameterDefinition(
+					getName(),
+					(value != null) ? value.toString() : "",
+					isSuccessfulOnly(),
 					getDescription());
 		} else {
 			return this;
@@ -75,7 +78,9 @@ public class PersistentStringParameterDefinition extends SimpleParameterDefiniti
 				System.out.println("Got Abstract Project");
 				AbstractBuild build = (successfulOnly ? (AbstractBuild) project.getLastSuccessfulBuild()
 						: project.getLastBuild());
-				return build.getBuildVariables().get(getName()).toString();
+				if (build != null) {
+					return build.getBuildVariables().get(getName()).toString();
+				}
 			} else {
 				StaplerRequest sr = Stapler.getCurrentRequest();
 				//System.out.println("Ancestors of current request "  +sr.getAncestors());
@@ -88,7 +93,7 @@ public class PersistentStringParameterDefinition extends SimpleParameterDefiniti
 
 					System.out.println("Env Vars " + wj.getLastBuild().getEnvVars());
 					System.out.println(
-							"PArameter value retrieved is " + wj.getLastBuild().getEnvVars().get(getName()).toString());
+							"Parameter value retrieved is " + wj.getLastBuild().getEnvVars().get(getName()).toString());
 
 					return wj.getLastBuild().getEnvVars().get(getName()).toString();
 				}
