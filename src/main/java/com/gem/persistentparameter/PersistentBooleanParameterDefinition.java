@@ -72,9 +72,8 @@ public class PersistentBooleanParameterDefinition extends SimpleParameterDefinit
   {
     try
     {
-      AbstractProject project = CurrentProject.getCurrentProject(this);
-      AbstractBuild build = (successfulOnly ? (AbstractBuild)project.getLastSuccessfulBuild() : project.getLastBuild());
-      return Boolean.parseBoolean(build.getBuildVariables().get(getName()).toString());
+      ParameterValue lastValue = CurrentProject.getLastValue(this, successfulOnly);
+      return ((BooleanParameterValue)lastValue).value;
     }
     catch(Exception ex)
     {

@@ -76,9 +76,8 @@ public class PersistentChoiceParameterDefinition extends SimpleParameterDefiniti
     String def = defaultValue;
     try
     {
-      AbstractProject project = CurrentProject.getCurrentProject(this);
-      AbstractBuild build = (successfulOnly ? (AbstractBuild)project.getLastSuccessfulBuild() : project.getLastBuild());
-      def = build.getBuildVariables().get(getName()).toString();
+      ParameterValue lastValue = CurrentProject.getLastValue(this, successfulOnly);
+      def = ((StringParameterValue)lastValue).value;
     }
     catch(Exception ex)
     {
