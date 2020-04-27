@@ -70,9 +70,8 @@ public class PersistentStringParameterDefinition extends SimpleParameterDefiniti
   {
     try
     {
-      AbstractProject project = CurrentProject.getCurrentProject(this);
-      AbstractBuild build = (successfulOnly ? (AbstractBuild)project.getLastSuccessfulBuild() : project.getLastBuild());
-      return build.getBuildVariables().get(getName()).toString();
+      ParameterValue lastValue = CurrentProject.getLastValue(this, successfulOnly);
+      return ((StringParameterValue)lastValue).value;
     }
     catch(Exception ex)
     {
