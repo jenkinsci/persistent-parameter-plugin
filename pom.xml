@@ -10,7 +10,7 @@
   <name>Persistent Parameter Plugin</name>
   <description>String, text, boolean and choice parameters with default values taken from the previous build (if any).</description>
   <url>http://wiki.jenkins-ci.org/display/JENKINS/Persistent+Parameter+Plugin</url>
-  <version>1.2-SNAPSHOT</version>
+  <version>1.2</version>
   <packaging>hpi</packaging>
   
   <licenses>
