@@ -1,4 +1,3 @@
-<?xml version="1.0"?>
 <!--
 The MIT License
 
@@ -22,12 +21,16 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 -->
+
 <?jelly escape-by-default='true'?>
-<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:i="jelly:fmt" xmlns:p="/lib/hudson/project">
-  <f:entry title="${it.name}" description="${it.formattedDescription}">
-    <div name="parameter">
-      <input type="hidden" name="name" value="${it.name}"/>
-      <f:textarea name="value" value="${it.defaultValue}"/>
-    </div>
-  </f:entry>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define"
+         xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form"
+         xmlns:i="jelly:fmt" xmlns:p="/lib/hudson/project">
+    <j:set var="escapeEntryTitleAndDescription" value="false"/>
+    <f:entry title="${h.escape(it.name)}" description="${it.formattedDescription}">
+        <div name="parameter">
+            <input type="hidden" name="name" value="${it.name}"/>
+            <f:textarea name="value" value="${it.defaultParameterValue.value}"/>
+        </div>
+    </f:entry>
 </j:jelly>

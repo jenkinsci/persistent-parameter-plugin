@@ -24,21 +24,17 @@
 package com.gem.persistentparameter;
 
 import hudson.Extension;
-import hudson.model.ParameterValue;
-import hudson.model.SimpleParameterDefinition;
-import hudson.model.AbstractBuild;
-import hudson.model.AbstractProject;
 import hudson.model.BooleanParameterValue;
 import hudson.model.ParameterDefinition;
+import hudson.model.ParameterValue;
+import hudson.model.SimpleParameterDefinition;
 import net.sf.json.JSONObject;
-
+import org.jenkinsci.Symbol;
 import org.kohsuke.stapler.DataBoundConstructor;
 import org.kohsuke.stapler.StaplerRequest;
 
 /**
  * {@link ParameterDefinition} that is either 'true' or 'false'.
- *
- * @author huybrechts
  */
 public class PersistentBooleanParameterDefinition extends SimpleParameterDefinition
 {
@@ -70,17 +66,9 @@ public class PersistentBooleanParameterDefinition extends SimpleParameterDefinit
 
   public boolean isDefaultValue()
   {
-    try
-    {
-      ParameterValue lastValue = CurrentProject.getLastValue(this, successfulOnly);
-      return ((BooleanParameterValue)lastValue).value;
-    }
-    catch(Exception ex)
-    {
-    }
     return defaultValue;
   }
-  
+
   public boolean isSuccessfulOnly()
   {
     return successfulOnly;
@@ -94,18 +82,22 @@ public class PersistentBooleanParameterDefinition extends SimpleParameterDefinit
     return value;
   }
 
+  @Override
   public ParameterValue createValue(String value)
   {
-    return new BooleanParameterValue(getName(), Boolean.valueOf(value), getDescription());
+    return new BooleanParameterValue(getName(), Boolean.parseBoolean(value), getDescription());
   }
 
   @Override
   public BooleanParameterValue getDefaultParameterValue()
   {
-    return new BooleanParameterValue(getName(), isDefaultValue(), getDescription());
+    ParameterValue lastValue = CurrentProject.getLastValue(this, successfulOnly);
+    boolean value = (lastValue instanceof BooleanParameterValue) ? ((BooleanParameterValue)lastValue).getValue() : defaultValue;
+    return new BooleanParameterValue(getName(), value, getDescription());
   }
 
   @Extension
+  @Symbol({"persistentBoolean", "persistentBooleanParam"})
   public static class DescriptorImpl extends ParameterDescriptor
   {
     @Override
@@ -120,5 +112,4 @@ public class PersistentBooleanParameterDefinition extends SimpleParameterDefinit
       return "/help/parameter/boolean.html";
     }
   }
-
 }
