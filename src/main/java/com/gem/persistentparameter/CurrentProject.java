@@ -40,7 +40,7 @@ public class CurrentProject
   }
 
   public static ParameterValue getLastValue(SimpleParameterDefinition parameter, boolean successfulOnly) {
-    Job job = CurrentProject.getCurrentProject(parameter);
+    Job<?,?> job = CurrentProject.getCurrentProject(parameter);
     if (job != null)
     {
       Run<? ,?> lastBuild = (successfulOnly ? job.getLastSuccessfulBuild() : job.getLastBuild());
