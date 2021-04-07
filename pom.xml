@@ -15,7 +15,7 @@
   <name>Persistent Parameter Plugin</name>
   <description>String, text, boolean and choice parameters with default values taken from the previous build (if any).</description>
   <url>http://wiki.jenkins-ci.org/display/JENKINS/Persistent+Parameter+Plugin</url>
-  <version>1.3</version>
+  <version>1.4-SNAPSHOT</version>
   <packaging>hpi</packaging>
 
   <licenses>
@@ -59,7 +59,7 @@
     <connection>scm:git:ssh://github.com/jenkinsci/persistent-parameter-plugin.git</connection>
     <developerConnection>scm:git:ssh://git@github.com/jenkinsci/persistent-parameter-plugin.git</developerConnection>
     <url>https://github.com/jenkinsci/persistent-parameter-plugin</url>
-    <tag>persistent-parameter-1.3</tag>
+    <tag>HEAD</tag>
   </scm>
 
   <build>
