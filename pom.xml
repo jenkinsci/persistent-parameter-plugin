@@ -3,20 +3,24 @@
   <parent>
     <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>plugin</artifactId>
-    <version>4.13</version>
+    <version>4.88</version>
+    <relativePath/>
   </parent>
 
-  <properties>
-    <jenkins.version>2.164.1</jenkins.version>   <!-- which version of Jenkins is this plugin built against? Users must have at least this Jenkins version to use this plugin. -->
-    <java.level>8</java.level>
-  </properties>
 
   <artifactId>persistent-parameter</artifactId>
   <name>Persistent Parameter Plugin</name>
   <description>String, text, boolean and choice parameters with default values taken from the previous build (if any).</description>
-  <url>http://wiki.jenkins-ci.org/display/JENKINS/Persistent+Parameter+Plugin</url>
-  <version>1.4-SNAPSHOT</version>
+  <url>https://github.com/jenkinsci/${project.artifactId}-plugin</url>
+  <version>${revision}${changelist}</version>
   <packaging>hpi</packaging>
+
+  <properties>
+    <revision>1.4</revision>
+    <changelist>-SNAPSHOT</changelist>
+    <gitHubRepo>jenkinsci/${project.artifactId}-plugin</gitHubRepo>
+    <jenkins.version>2.440.3</jenkins.version>
+  </properties>
 
   <licenses>
     <license>
@@ -56,32 +60,22 @@
   </distributionManagement>
 
   <scm>
-    <connection>scm:git:ssh://github.com/jenkinsci/persistent-parameter-plugin.git</connection>
-    <developerConnection>scm:git:ssh://git@github.com/jenkinsci/persistent-parameter-plugin.git</developerConnection>
+    <connection>scm:git:https://github.com/jenkinsci/persistent-parameter-plugin.git</connection>
+    <developerConnection>scm:git:https://git@github.com/jenkinsci/persistent-parameter-plugin.git</developerConnection>
     <url>https://github.com/jenkinsci/persistent-parameter-plugin</url>
-    <tag>HEAD</tag>
+    <tag>${scmTag}</tag>
   </scm>
 
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-release-plugin</artifactId>
-        <version>2.5.3</version>
-        <dependencies>
-          <dependency>
-            <groupId>org.apache.maven.scm</groupId>
-            <artifactId>maven-scm-provider-gitexe</artifactId>
-            <version>1.11.2</version>
-          </dependency>
-          <dependency>
-            <groupId>org.apache.maven.scm</groupId>
-            <artifactId>maven-scm-api</artifactId>
-            <version>1.11.2</version>
-          </dependency>
-        </dependencies>
-      </plugin>
-    </plugins>
-  </build>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>io.jenkins.tools.bom</groupId>
+        <artifactId>bom-2.440.x</artifactId>
+        <version>3435.v238d66a_043fb_</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
 </project>
