@@ -10,3 +10,9 @@
 /.settings
 # Jenkins
 /work
+
+# IntelliJ IDEA project files
+*.iml
+*.iws
+*.ipr
+.idea
