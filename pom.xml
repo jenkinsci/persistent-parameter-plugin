@@ -3,12 +3,12 @@
   <parent>
     <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>plugin</artifactId>
-    <version>4.51</version>
+    <version>4.88</version>
     <relativePath />
   </parent>
 
   <properties>
-    <jenkins.version>2.346.3</jenkins.version>
+    <jenkins.version>2.452.4</jenkins.version>
   </properties>
 
   <artifactId>persistent-parameter</artifactId>
