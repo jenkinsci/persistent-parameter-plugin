@@ -13,7 +13,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import javax.annotation.Nonnull;
 import net.sf.json.JSONObject;
-import org.apache.commons.lang.StringUtils;
+
 import org.jenkinsci.Symbol;
 import org.kohsuke.accmod.Restricted;
 import org.kohsuke.accmod.restrictions.NoExternalUse;
@@ -124,7 +124,7 @@ public class PersistentChoiceParameterDefinition extends SimpleParameterDefiniti
 
   public String getChoicesText()
   {
-    return StringUtils.join(choices, "\n");
+    return String.join("\n", choices);
   }
 
   @DataBoundSetter

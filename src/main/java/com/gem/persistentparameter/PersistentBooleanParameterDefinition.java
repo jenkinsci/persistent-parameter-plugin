@@ -92,7 +92,13 @@ public class PersistentBooleanParameterDefinition extends SimpleParameterDefinit
   public BooleanParameterValue getDefaultParameterValue()
   {
     ParameterValue lastValue = CurrentProject.getLastValue(this, successfulOnly);
-    boolean value = (lastValue instanceof BooleanParameterValue) ? ((BooleanParameterValue)lastValue).getValue() : defaultValue;
+    boolean value = defaultValue;
+    if (lastValue instanceof BooleanParameterValue) {
+      Boolean lastBooleanValue = ((BooleanParameterValue)lastValue).getValue();
+      if (lastBooleanValue != null) {
+        value = lastBooleanValue.booleanValue();
+      }
+    }
     return new BooleanParameterValue(getName(), value, getDescription());
   }
 
